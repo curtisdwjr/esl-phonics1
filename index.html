@@ -322,9 +322,12 @@
         <div class="tabs">
             <button class="tab active" onclick="showTab('welcome')">📚 Welcome</button>
             <button class="tab" onclick="showTab('alphabet')">🔤 Alphabet</button>
-            <button class="tab" onclick="showTab('short-vowels')">📖 Short Vowels</button>
-            <button class="tab" onclick="showTab('long-vowels')">📘 Long Vowels</button>
-            <button class="tab" onclick="showTab('consonants')">🔊 Consonants</button>
+            <button class="tab" onclick="showTab('short-vowels')">Short Vowels</button>
+            <button class="tab" onclick="showTab('long-vowels')">Long Vowels</button>
+            <button class="tab" onclick="showTab('short-consonants')">Consonants (Short Vowel)</button>
+            <button class="tab" onclick="showTab('long-consonants')">Consonants (Long Vowel)</button>
+            <button class="tab" onclick="showTab('blends')">Blends</button>
+            <button class="tab" onclick="showTab('special-sounds')">ch, sh, th, wh Sounds</button>
         </div>
         
         <!-- Welcome Content -->
@@ -365,25 +368,32 @@
             <div class="vowel-grid" id="longVowelsGrid"></div>
         </div>
         
-        <!-- Consonants Content -->
-        <div id="consonants" class="tab-content">
-            <h2 class="section-title">Consonant Sounds</h2>
-            <p class="section-subtitle">Click the words to hear them - 5 study cards</p>
-            
-            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 1</h3>
-            <div class="vowel-grid" id="consonantsGrid1"></div>
-            
-            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 2</h3>
-            <div class="vowel-grid" id="consonantsGrid2"></div>
-            
-            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 3</h3>
-            <div class="vowel-grid" id="consonantsGrid3"></div>
-            
-            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 4</h3>
-            <div class="vowel-grid" id="consonantsGrid4"></div>
-            
-            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 5</h3>
-            <div class="vowel-grid" id="consonantsGrid5"></div>
+        <!-- Short Consonants Content -->
+        <div id="short-consonants" class="tab-content">
+            <h2 class="section-title">Consonants with Short Vowel Sounds</h2>
+            <p class="section-subtitle">Click the words to hear them</p>
+            <div class="vowel-grid" id="shortConsonantsGrid"></div>
+        </div>
+        
+        <!-- Long Consonants Content -->
+        <div id="long-consonants" class="tab-content">
+            <h2 class="section-title">Consonants with Long Vowel Sounds</h2>
+            <p class="section-subtitle">Click the words to hear them</p>
+            <div class="vowel-grid" id="longConsonantsGrid"></div>
+        </div>
+        
+        <!-- Blends Content -->
+        <div id="blends" class="tab-content">
+            <h2 class="section-title">Consonant Blends</h2>
+            <p class="section-subtitle">Click the words to hear them</p>
+            <div class="vowel-grid" id="blendsGrid"></div>
+        </div>
+        
+        <!-- Special Sounds Content -->
+        <div id="special-sounds" class="tab-content">
+            <h2 class="section-title">ch, sh, th, wh Sounds</h2>
+            <p class="section-subtitle">Click the words to hear them</p>
+            <div class="vowel-grid" id="specialSoundsGrid"></div>
         </div>
     </div>
     
@@ -476,123 +486,299 @@
             ]}
         ];
         
-        // Consonants data - Study Card 1 (B, C, D, F)
-        const consonants1 = [
+        // Short Consonants data - Words with SHORT vowel sounds
+        const shortConsonants = [
             { letter: 'B', sound: 'b', words: [
-                { word: 'ball', emoji: '⚽' },
-                { word: 'book', emoji: '📖' },
+                { word: 'bag', emoji: '👜' },
+                { word: 'bat', emoji: '🦇' },
                 { word: 'bed', emoji: '🛏️' }
             ]},
             { letter: 'C', sound: 'c', words: [
                 { word: 'cat', emoji: '🐱' },
-                { word: 'car', emoji: '🚗' },
-                { word: 'cup', emoji: '☕' }
+                { word: 'cup', emoji: '☕' },
+                { word: 'can', emoji: '🥫' }
             ]},
             { letter: 'D', sound: 'd', words: [
+                { word: 'dad', emoji: '👨' },
                 { word: 'dog', emoji: '🐕' },
-                { word: 'door', emoji: '🚪' },
-                { word: 'duck', emoji: '🦆' }
+                { word: 'dot', emoji: '⚫' }
             ]},
             { letter: 'F', sound: 'f', words: [
-                { word: 'fish', emoji: '🐟' },
-                { word: 'flag', emoji: '🚩' },
-                { word: 'foot', emoji: '🦶' }
-            ]}
-        ];
-        
-        // Consonants data - Study Card 2 (G, H, J, K)
-        const consonants2 = [
+                { word: 'fist', emoji: '✊' },
+                { word: 'fox', emoji: '🦊' },
+                { word: 'fish', emoji: '🐟' }
+            ]},
             { letter: 'G', sound: 'g', words: [
-                { word: 'gate', emoji: '🚧' },
-                { word: 'girl', emoji: '👧' },
+                { word: 'gas', emoji: '⛽' },
+                { word: 'gum', emoji: '🍬' },
                 { word: 'gift', emoji: '🎁' }
             ]},
             { letter: 'H', sound: 'h', words: [
                 { word: 'hat', emoji: '🎩' },
-                { word: 'hand', emoji: '✋' },
-                { word: 'house', emoji: '🏠' }
+                { word: 'ham', emoji: '🍖' },
+                { word: 'hip', emoji: '🦴' }
             ]},
             { letter: 'J', sound: 'j', words: [
+                { word: 'jam', emoji: '🍓' },
                 { word: 'jet', emoji: '✈️' },
-                { word: 'jump', emoji: '🤸' },
-                { word: 'jar', emoji: '🫙' }
+                { word: 'jog', emoji: '🏃' }
             ]},
             { letter: 'K', sound: 'k', words: [
-                { word: 'key', emoji: '🔑' },
-                { word: 'king', emoji: '🤴' },
-                { word: 'kite', emoji: '🪁' }
-            ]}
-        ];
-        
-        // Consonants data - Study Card 3 (L, M, N, P)
-        const consonants3 = [
+                { word: 'kid', emoji: '👶' },
+                { word: 'kit', emoji: '🧰' },
+                { word: 'kiss', emoji: '💋' }
+            ]},
             { letter: 'L', sound: 'l', words: [
-                { word: 'lamp', emoji: '💡' },
-                { word: 'lock', emoji: '🔒' },
-                { word: 'leaf', emoji: '🍃' }
+                { word: 'leg', emoji: '🦵' },
+                { word: 'lip', emoji: '👄' },
+                { word: 'lab', emoji: '🧪' }
             ]},
             { letter: 'M', sound: 'm', words: [
-                { word: 'moon', emoji: '🌙' },
-                { word: 'map', emoji: '🗺️' },
-                { word: 'milk', emoji: '🥛' }
+                { word: 'man', emoji: '👨' },
+                { word: 'mop', emoji: '🧹' },
+                { word: 'mom', emoji: '👩' }
             ]},
             { letter: 'N', sound: 'n', words: [
-                { word: 'nest', emoji: '🪺' },
-                { word: 'nose', emoji: '👃' },
-                { word: 'net', emoji: '🥅' }
+                { word: 'nap', emoji: '😴' },
+                { word: 'net', emoji: '🥅' },
+                { word: 'nut', emoji: '🥜' }
             ]},
             { letter: 'P', sound: 'p', words: [
-                { word: 'pen', emoji: '🖊️' },
-                { word: 'pig', emoji: '🐷' },
-                { word: 'phone', emoji: '📱' }
-            ]}
-        ];
-        
-        // Consonants data - Study Card 4 (R, S, T, V)
-        const consonants4 = [
+                { word: 'pan', emoji: '🍳' },
+                { word: 'pet', emoji: '🐕' },
+                { word: 'pin', emoji: '📌' }
+            ]},
             { letter: 'R', sound: 'r', words: [
-                { word: 'ring', emoji: '💍' },
-                { word: 'rain', emoji: '🌧️' },
-                { word: 'rock', emoji: '🪨' }
+                { word: 'rat', emoji: '🐀' },
+                { word: 'red', emoji: '🔴' },
+                { word: 'run', emoji: '🏃' }
             ]},
             { letter: 'S', sound: 's', words: [
-                { word: 'sun', emoji: '☀️' },
-                { word: 'star', emoji: '⭐' },
-                { word: 'sock', emoji: '🧦' }
+                { word: 'sad', emoji: '😢' },
+                { word: 'sit', emoji: '🪑' },
+                { word: 'sun', emoji: '☀️' }
             ]},
             { letter: 'T', sound: 't', words: [
+                { word: 'ten', emoji: '🔟' },
                 { word: 'top', emoji: '🔝' },
-                { word: 'tree', emoji: '🌳' },
-                { word: 'tent', emoji: '⛺' }
+                { word: 'tax', emoji: '💸' }
             ]},
             { letter: 'V', sound: 'v', words: [
                 { word: 'van', emoji: '🚐' },
-                { word: 'vest', emoji: '🦺' },
-                { word: 'vase', emoji: '🏺' }
+                { word: 'vet', emoji: '👨‍⚕️' },
+                { word: 'vest', emoji: '🦺' }
+            ]},
+            { letter: 'W', sound: 'w', words: [
+                { word: 'wet', emoji: '💧' },
+                { word: 'web', emoji: '🕸️' },
+                { word: 'win', emoji: '🏆' }
+            ]},
+            { letter: 'X', sound: 'x', words: [
+                { word: 'box', emoji: '📦' }
+            ]},
+            { letter: 'Y', sound: 'y', words: [
+                { word: 'yes', emoji: '✅' }
+            ]},
+            { letter: 'Z', sound: 'z', words: [
+                { word: 'zip', emoji: '🤐' }
             ]}
         ];
         
-        // Consonants data - Study Card 5 (W, X, Y, Z)
-        const consonants5 = [
+        // Long Consonants data - Words with LONG vowel sounds
+        const longConsonants = [
+            { letter: 'B', sound: 'b', words: [
+                { word: 'baby', emoji: '👶' },
+                { word: 'bike', emoji: '🚲' },
+                { word: 'bean', emoji: '🫘' }
+            ]},
+            { letter: 'C', sound: 'c', words: [
+                { word: 'cake', emoji: '🍰' },
+                { word: 'cone', emoji: '🍦' },
+                { word: 'cute', emoji: '🥰' }
+            ]},
+            { letter: 'D', sound: 'd', words: [
+                { word: 'date', emoji: '📅' },
+                { word: 'deep', emoji: '🌊' },
+                { word: 'dime', emoji: '💰' }
+            ]},
+            { letter: 'F', sound: 'f', words: [
+                { word: 'face', emoji: '😊' },
+                { word: 'feet', emoji: '👣' },
+                { word: 'five', emoji: '5️⃣' }
+            ]},
+            { letter: 'G', sound: 'g', words: [
+                { word: 'gate', emoji: '🚧' },
+                { word: 'goal', emoji: '⚽' },
+                { word: 'game', emoji: '🎮' }
+            ]},
+            { letter: 'H', sound: 'h', words: [
+                { word: 'hate', emoji: '😠' },
+                { word: 'heat', emoji: '🔥' },
+                { word: 'home', emoji: '🏠' }
+            ]},
+            { letter: 'J', sound: 'j', words: [
+                { word: 'jade', emoji: '💚' },
+                { word: 'jeep', emoji: '🚙' },
+                { word: 'joke', emoji: '😂' }
+            ]},
+            { letter: 'K', sound: 'k', words: [
+                { word: 'kale', emoji: '🥬' },
+                { word: 'keep', emoji: '🔒' },
+                { word: 'kite', emoji: '🪁' }
+            ]},
+            { letter: 'L', sound: 'l', words: [
+                { word: 'lake', emoji: '🏞️' },
+                { word: 'leaf', emoji: '🍃' },
+                { word: 'lime', emoji: '🍋' }
+            ]},
+            { letter: 'M', sound: 'm', words: [
+                { word: 'mail', emoji: '📬' },
+                { word: 'meat', emoji: '🥩' },
+                { word: 'mile', emoji: '🛣️' }
+            ]},
+            { letter: 'N', sound: 'n', words: [
+                { word: 'name', emoji: '📛' },
+                { word: 'nine', emoji: '9️⃣' },
+                { word: 'nail', emoji: '💅' }
+            ]},
+            { letter: 'P', sound: 'p', words: [
+                { word: 'page', emoji: '📄' },
+                { word: 'pail', emoji: '🪣' },
+                { word: 'pea', emoji: '🫛' }
+            ]},
+            { letter: 'R', sound: 'r', words: [
+                { word: 'race', emoji: '🏁' },
+                { word: 'read', emoji: '📖' },
+                { word: 'rope', emoji: '🪢' }
+            ]},
+            { letter: 'S', sound: 's', words: [
+                { word: 'safe', emoji: '🔐' },
+                { word: 'seed', emoji: '🌱' },
+                { word: 'side', emoji: '↔️' }
+            ]},
+            { letter: 'T', sound: 't', words: [
+                { word: 'tape', emoji: '📼' },
+                { word: 'tea', emoji: '🍵' },
+                { word: 'tide', emoji: '🌊' }
+            ]},
+            { letter: 'V', sound: 'v', words: [
+                { word: 'vase', emoji: '🏺' },
+                { word: 'veal', emoji: '🥩' },
+                { word: 'vine', emoji: '🍇' }
+            ]},
             { letter: 'W', sound: 'w', words: [
-                { word: 'web', emoji: '🕸️' },
-                { word: 'wave', emoji: '🌊' },
-                { word: 'watch', emoji: '⌚' }
+                { word: 'wake', emoji: '⏰' },
+                { word: 'we', emoji: '👥' },
+                { word: 'wipe', emoji: '🧻' }
             ]},
             { letter: 'X', sound: 'x', words: [
-                { word: 'box', emoji: '📦' },
-                { word: 'fox', emoji: '🦊' },
-                { word: 'six', emoji: '6️⃣' }
+                { word: 'xray', emoji: '🩻' }
             ]},
             { letter: 'Y', sound: 'y', words: [
-                { word: 'yard', emoji: '🏡' },
-                { word: 'yarn', emoji: '🧶' },
-                { word: 'yell', emoji: '📢' }
+                { word: 'yay', emoji: '🎉' }
             ]},
             { letter: 'Z', sound: 'z', words: [
-                { word: 'zoo', emoji: '🦁' },
-                { word: 'zip', emoji: '🤐' },
-                { word: 'zero', emoji: '0️⃣' }
+                { word: 'zone', emoji: '🚧' }
+            ]}
+        ];
+        
+        // Blends data - 2 words each with clear emojis
+        const blends = [
+            { letter: 'bl', sound: 'bl', words: [
+                { word: 'black', emoji: '⬛' },
+                { word: 'blue', emoji: '🔵' }
+            ]},
+            { letter: 'cl', sound: 'cl', words: [
+                { word: 'clap', emoji: '👏' },
+                { word: 'cloud', emoji: '☁️' }
+            ]},
+            { letter: 'fl', sound: 'fl', words: [
+                { word: 'flag', emoji: '🚩' },
+                { word: 'fly', emoji: '🪰' }
+            ]},
+            { letter: 'gl', sound: 'gl', words: [
+                { word: 'glass', emoji: '🥛' },
+                { word: 'glue', emoji: '🧴' }
+            ]},
+            { letter: 'pl', sound: 'pl', words: [
+                { word: 'plate', emoji: '🍽️' },
+                { word: 'play', emoji: '🎮' }
+            ]},
+            { letter: 'sl', sound: 'sl', words: [
+                { word: 'slide', emoji: '🛝' },
+                { word: 'sleep', emoji: '😴' }
+            ]},
+            { letter: 'br', sound: 'br', words: [
+                { word: 'bread', emoji: '🍞' },
+                { word: 'brown', emoji: '🟤' }
+            ]},
+            { letter: 'cr', sound: 'cr', words: [
+                { word: 'crab', emoji: '🦀' },
+                { word: 'cry', emoji: '😢' }
+            ]},
+            { letter: 'dr', sound: 'dr', words: [
+                { word: 'drum', emoji: '🥁' },
+                { word: 'drink', emoji: '🥤' }
+            ]},
+            { letter: 'fr', sound: 'fr', words: [
+                { word: 'frog', emoji: '🐸' },
+                { word: 'fruit', emoji: '🍎' }
+            ]},
+            { letter: 'gr', sound: 'gr', words: [
+                { word: 'green', emoji: '🟢' },
+                { word: 'grass', emoji: '🌱' }
+            ]},
+            { letter: 'tr', sound: 'tr', words: [
+                { word: 'tree', emoji: '🌳' },
+                { word: 'truck', emoji: '🚚' }
+            ]},
+            { letter: 'sc', sound: 'sc', words: [
+                { word: 'scare', emoji: '😱' },
+                { word: 'scale', emoji: '⚖️' }
+            ]},
+            { letter: 'sk', sound: 'sk', words: [
+                { word: 'skip', emoji: '🤸' },
+                { word: 'skate', emoji: '⛸️' }
+            ]},
+            { letter: 'sm', sound: 'sm', words: [
+                { word: 'smile', emoji: '😊' },
+                { word: 'small', emoji: '🤏' }
+            ]},
+            { letter: 'sn', sound: 'sn', words: [
+                { word: 'snake', emoji: '🐍' },
+                { word: 'snow', emoji: '❄️' }
+            ]},
+            { letter: 'sp', sound: 'sp', words: [
+                { word: 'spoon', emoji: '🥄' },
+                { word: 'spider', emoji: '🕷️' }
+            ]},
+            { letter: 'st', sound: 'st', words: [
+                { word: 'stop', emoji: '🛑' },
+                { word: 'star', emoji: '⭐' }
+            ]},
+            { letter: 'sw', sound: 'sw', words: [
+                { word: 'swim', emoji: '🏊' },
+                { word: 'swing', emoji: '🎪' }
+            ]}
+        ];
+        
+        // Special Sounds (ch, sh, th, wh) data - 2 words each
+        const specialSounds = [
+            { letter: 'ch', sound: 'ch', words: [
+                { word: 'chair', emoji: '🪑' },
+                { word: 'cheese', emoji: '🧀' }
+            ]},
+            { letter: 'sh', sound: 'sh', words: [
+                { word: 'ship', emoji: '🚢' },
+                { word: 'shoe', emoji: '👞' }
+            ]},
+            { letter: 'th', sound: 'th', words: [
+                { word: 'three', emoji: '3️⃣' },
+                { word: 'thumb', emoji: '👍' }
+            ]},
+            { letter: 'wh', sound: 'wh', words: [
+                { word: 'whale', emoji: '🐋' },
+                { word: 'wheel', emoji: '🎡' }
             ]}
         ];
         
@@ -689,11 +875,10 @@
         populateAlphabet();
         populateVowels(shortVowels, 'shortVowelsGrid');
         populateVowels(longVowels, 'longVowelsGrid');
-        populateVowels(consonants1, 'consonantsGrid1');
-        populateVowels(consonants2, 'consonantsGrid2');
-        populateVowels(consonants3, 'consonantsGrid3');
-        populateVowels(consonants4, 'consonantsGrid4');
-        populateVowels(consonants5, 'consonantsGrid5');
+        populateVowels(shortConsonants, 'shortConsonantsGrid');
+        populateVowels(longConsonants, 'longConsonantsGrid');
+        populateVowels(blends, 'blendsGrid');
+        populateVowels(specialSounds, 'specialSoundsGrid');
     </script>
 </body>
 </html>
