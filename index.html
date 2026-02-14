@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Alphabet & Phonics Practice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f1f8e9;
+            padding: 10px;
+            gap: 8px;
+            border-bottom: 3px solid #4caf50;
+        }
+        
+        .tab {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #4caf50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+        }
+        
+        .tab:hover {
+            background: #e8f5e9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        /* Content */
+        .tab-content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Welcome Tab */
+        .welcome-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .welcome-content h2 {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 2.2rem;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .language-section {
+            background: #f1f8e9;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .language-section h3 {
+            font-family: 'Bubblegum Sans', cursive;
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+        
+        /* Alphabet Grid */
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .letter-card {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            border: 3px solid #4caf50;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .letter-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+        }
+        
+        .letter-card:active {
+            transform: scale(0.98);
+        }
+        
+        .letter-upper {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 3rem;
+            color: #2e7d32;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .letter-lower {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 2rem;
+            color: #66bb6a;
+            display: block;
+        }
+        
+        .speaker-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* Vowel Cards */
+        .vowel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .vowel-card {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            border: 4px solid #4caf50;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .vowel-letter {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 4rem;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .vowel-sound {
+            font-size: 2rem;
+            color: #66bb6a;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .example-words {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .word-item {
+            background: white;
+            border: 2px solid #a5d6a7;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2e7d32;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .word-item:hover {
+            background: #e8f5e9;
+            transform: translateX(5px);
+            border-color: #4caf50;
+        }
+        
+        .word-emoji {
+            font-size: 1.5rem;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .word-emoji:hover::after {
+            content: '🔊';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            background: rgba(76, 175, 80, 0.9);
+            border-radius: 50%;
+            padding: 4px;
+        }
+        
+        .section-title {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 2rem;
+            color: #4caf50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: auto;
+            }
+            
+            .alphabet-grid {
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+                gap: 10px;
+            }
+            
+            .letter-upper {
+                font-size: 2.5rem;
+            }
+            
+            .letter-lower {
+                font-size: 1.8rem;
+            }
+            
+            .vowel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🔤 ESL Alphabet & Phonics</h1>
+            <p>Learn English Letters and Sounds</p>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('welcome')">📚 Welcome</button>
+            <button class="tab" onclick="showTab('alphabet')">🔤 Alphabet</button>
+            <button class="tab" onclick="showTab('short-vowels')">📖 Short Vowels</button>
+            <button class="tab" onclick="showTab('long-vowels')">📘 Long Vowels</button>
+            <button class="tab" onclick="showTab('consonants')">🔊 Consonants</button>
+        </div>
+        
+        <!-- Welcome Content -->
+        <div id="welcome" class="tab-content active">
+            <div class="welcome-content">
+                <h2>Welcome to Alphabet & Phonics Practice! 👋</h2>
+                
+                <div class="language-section">
+                    <h3>English</h3>
+                    <p>Learn the English alphabet and vowel sounds. Click any letter to hear it. Practice short and long vowel sounds with example words. Perfect for ESL students!</p>
+                </div>
+                
+                <div class="language-section">
+                    <h3>Español (Spanish)</h3>
+                    <p>Aprende el alfabeto en inglés y los sonidos de las vocales. Haz clic en cualquier letra para escucharla. Practica los sonidos cortos y largos de las vocales con palabras de ejemplo. ¡Perfecto para estudiantes de ESL!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alphabet Content -->
+        <div id="alphabet" class="tab-content">
+            <h2 class="section-title">The English Alphabet</h2>
+            <p class="section-subtitle">Click any letter to hear its name</p>
+            <div class="alphabet-grid" id="alphabetGrid"></div>
+        </div>
+        
+        <!-- Short Vowels Content -->
+        <div id="short-vowels" class="tab-content">
+            <h2 class="section-title">Short Vowel Sounds</h2>
+            <p class="section-subtitle">Click the words to hear them</p>
+            <div class="vowel-grid" id="shortVowelsGrid"></div>
+        </div>
+        
+        <!-- Long Vowels Content -->
+        <div id="long-vowels" class="tab-content">
+            <h2 class="section-title">Long Vowel Sounds</h2>
+            <p class="section-subtitle">Click the words to hear them</p>
+            <div class="vowel-grid" id="longVowelsGrid"></div>
+        </div>
+        
+        <!-- Consonants Content -->
+        <div id="consonants" class="tab-content">
+            <h2 class="section-title">Consonant Sounds</h2>
+            <p class="section-subtitle">Click the words to hear them - 5 study cards</p>
+            
+            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 1</h3>
+            <div class="vowel-grid" id="consonantsGrid1"></div>
+            
+            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 2</h3>
+            <div class="vowel-grid" id="consonantsGrid2"></div>
+            
+            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 3</h3>
+            <div class="vowel-grid" id="consonantsGrid3"></div>
+            
+            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 4</h3>
+            <div class="vowel-grid" id="consonantsGrid4"></div>
+            
+            <h3 style="font-family: 'Bubblegum Sans', cursive; color: #4caf50; text-align: center; margin: 30px 0 15px 0; font-size: 1.5rem;">Study Card 5</h3>
+            <div class="vowel-grid" id="consonantsGrid5"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Alphabet data
+        const alphabet = [
+            { upper: 'A', lower: 'a', name: 'ay' },
+            { upper: 'B', lower: 'b', name: 'bee' },
+            { upper: 'C', lower: 'c', name: 'see' },
+            { upper: 'D', lower: 'd', name: 'dee' },
+            { upper: 'E', lower: 'e', name: 'ee' },
+            { upper: 'F', lower: 'f', name: 'eff' },
+            { upper: 'G', lower: 'g', name: 'gee' },
+            { upper: 'H', lower: 'h', name: 'aitch' },
+            { upper: 'I', lower: 'i', name: 'eye' },
+            { upper: 'J', lower: 'j', name: 'jay' },
+            { upper: 'K', lower: 'k', name: 'kay' },
+            { upper: 'L', lower: 'l', name: 'ell' },
+            { upper: 'M', lower: 'm', name: 'em' },
+            { upper: 'N', lower: 'n', name: 'en' },
+            { upper: 'O', lower: 'o', name: 'oh' },
+            { upper: 'P', lower: 'p', name: 'pee' },
+            { upper: 'Q', lower: 'q', name: 'cue' },
+            { upper: 'R', lower: 'r', name: 'are' },
+            { upper: 'S', lower: 's', name: 'ess' },
+            { upper: 'T', lower: 't', name: 'tee' },
+            { upper: 'U', lower: 'u', name: 'you' },
+            { upper: 'V', lower: 'v', name: 'vee' },
+            { upper: 'W', lower: 'w', name: 'double-you' },
+            { upper: 'X', lower: 'x', name: 'ex' },
+            { upper: 'Y', lower: 'y', name: 'why' },
+            { upper: 'Z', lower: 'z', name: 'zee' }
+        ];
+        
+        // Short vowels data
+        const shortVowels = [
+            { letter: 'A', sound: 'ă', words: [
+                { word: 'cat', emoji: '🐱' },
+                { word: 'hat', emoji: '🎩' },
+                { word: 'mat', emoji: '🧹' }
+            ]},
+            { letter: 'E', sound: 'ĕ', words: [
+                { word: 'bed', emoji: '🛏️' },
+                { word: 'red', emoji: '🔴' },
+                { word: 'pen', emoji: '🖊️' }
+            ]},
+            { letter: 'I', sound: 'ĭ', words: [
+                { word: 'pig', emoji: '🐷' },
+                { word: 'sit', emoji: '🪑' },
+                { word: 'pin', emoji: '📌' }
+            ]},
+            { letter: 'O', sound: 'ŏ', words: [
+                { word: 'dog', emoji: '🐕' },
+                { word: 'hot', emoji: '🔥' },
+                { word: 'box', emoji: '📦' }
+            ]},
+            { letter: 'U', sound: 'ŭ', words: [
+                { word: 'cup', emoji: '☕' },
+                { word: 'sun', emoji: '☀️' },
+                { word: 'bus', emoji: '🚌' }
+            ]}
+        ];
+        
+        // Long vowels data
+        const longVowels = [
+            { letter: 'A', sound: 'ā', words: [
+                { word: 'cake', emoji: '🍰' },
+                { word: 'rain', emoji: '🌧️' },
+                { word: 'day', emoji: '📅' }
+            ]},
+            { letter: 'E', sound: 'ē', words: [
+                { word: 'bee', emoji: '🐝' },
+                { word: 'feet', emoji: '👣' },
+                { word: 'tree', emoji: '🌳' }
+            ]},
+            { letter: 'I', sound: 'ī', words: [
+                { word: 'bike', emoji: '🚲' },
+                { word: 'kite', emoji: '🪁' },
+                { word: 'pie', emoji: '🥧' }
+            ]},
+            { letter: 'O', sound: 'ō', words: [
+                { word: 'boat', emoji: '⛵' },
+                { word: 'bone', emoji: '🦴' },
+                { word: 'toe', emoji: '🦶' }
+            ]},
+            { letter: 'U', sound: 'ū', words: [
+                { word: 'cube', emoji: '🧊' },
+                { word: 'tube', emoji: '🧪' },
+                { word: 'blue', emoji: '🔵' }
+            ]}
+        ];
+        
+        // Consonants data - Study Card 1 (B, C, D, F)
+        const consonants1 = [
+            { letter: 'B', sound: 'b', words: [
+                { word: 'ball', emoji: '⚽' },
+                { word: 'book', emoji: '📖' },
+                { word: 'bed', emoji: '🛏️' }
+            ]},
+            { letter: 'C', sound: 'c', words: [
+                { word: 'cat', emoji: '🐱' },
+                { word: 'car', emoji: '🚗' },
+                { word: 'cup', emoji: '☕' }
+            ]},
+            { letter: 'D', sound: 'd', words: [
+                { word: 'dog', emoji: '🐕' },
+                { word: 'door', emoji: '🚪' },
+                { word: 'duck', emoji: '🦆' }
+            ]},
+            { letter: 'F', sound: 'f', words: [
+                { word: 'fish', emoji: '🐟' },
+                { word: 'flag', emoji: '🚩' },
+                { word: 'foot', emoji: '🦶' }
+            ]}
+        ];
+        
+        // Consonants data - Study Card 2 (G, H, J, K)
+        const consonants2 = [
+            { letter: 'G', sound: 'g', words: [
+                { word: 'gate', emoji: '🚧' },
+                { word: 'girl', emoji: '👧' },
+                { word: 'gift', emoji: '🎁' }
+            ]},
+            { letter: 'H', sound: 'h', words: [
+                { word: 'hat', emoji: '🎩' },
+                { word: 'hand', emoji: '✋' },
+                { word: 'house', emoji: '🏠' }
+            ]},
+            { letter: 'J', sound: 'j', words: [
+                { word: 'jet', emoji: '✈️' },
+                { word: 'jump', emoji: '🤸' },
+                { word: 'jar', emoji: '🫙' }
+            ]},
+            { letter: 'K', sound: 'k', words: [
+                { word: 'key', emoji: '🔑' },
+                { word: 'king', emoji: '🤴' },
+                { word: 'kite', emoji: '🪁' }
+            ]}
+        ];
+        
+        // Consonants data - Study Card 3 (L, M, N, P)
+        const consonants3 = [
+            { letter: 'L', sound: 'l', words: [
+                { word: 'lamp', emoji: '💡' },
+                { word: 'lock', emoji: '🔒' },
+                { word: 'leaf', emoji: '🍃' }
+            ]},
+            { letter: 'M', sound: 'm', words: [
+                { word: 'moon', emoji: '🌙' },
+                { word: 'map', emoji: '🗺️' },
+                { word: 'milk', emoji: '🥛' }
+            ]},
+            { letter: 'N', sound: 'n', words: [
+                { word: 'nest', emoji: '🪺' },
+                { word: 'nose', emoji: '👃' },
+                { word: 'net', emoji: '🥅' }
+            ]},
+            { letter: 'P', sound: 'p', words: [
+                { word: 'pen', emoji: '🖊️' },
+                { word: 'pig', emoji: '🐷' },
+                { word: 'phone', emoji: '📱' }
+            ]}
+        ];
+        
+        // Consonants data - Study Card 4 (R, S, T, V)
+        const consonants4 = [
+            { letter: 'R', sound: 'r', words: [
+                { word: 'ring', emoji: '💍' },
+                { word: 'rain', emoji: '🌧️' },
+                { word: 'rock', emoji: '🪨' }
+            ]},
+            { letter: 'S', sound: 's', words: [
+                { word: 'sun', emoji: '☀️' },
+                { word: 'star', emoji: '⭐' },
+                { word: 'sock', emoji: '🧦' }
+            ]},
+            { letter: 'T', sound: 't', words: [
+                { word: 'top', emoji: '🔝' },
+                { word: 'tree', emoji: '🌳' },
+                { word: 'tent', emoji: '⛺' }
+            ]},
+            { letter: 'V', sound: 'v', words: [
+                { word: 'van', emoji: '🚐' },
+                { word: 'vest', emoji: '🦺' },
+                { word: 'vase', emoji: '🏺' }
+            ]}
+        ];
+        
+        // Consonants data - Study Card 5 (W, X, Y, Z)
+        const consonants5 = [
+            { letter: 'W', sound: 'w', words: [
+                { word: 'web', emoji: '🕸️' },
+                { word: 'wave', emoji: '🌊' },
+                { word: 'watch', emoji: '⌚' }
+            ]},
+            { letter: 'X', sound: 'x', words: [
+                { word: 'box', emoji: '📦' },
+                { word: 'fox', emoji: '🦊' },
+                { word: 'six', emoji: '6️⃣' }
+            ]},
+            { letter: 'Y', sound: 'y', words: [
+                { word: 'yard', emoji: '🏡' },
+                { word: 'yarn', emoji: '🧶' },
+                { word: 'yell', emoji: '📢' }
+            ]},
+            { letter: 'Z', sound: 'z', words: [
+                { word: 'zoo', emoji: '🦁' },
+                { word: 'zip', emoji: '🤐' },
+                { word: 'zero', emoji: '0️⃣' }
+            ]}
+        ];
+        
+        // Text-to-speech function
+        function speak(text, isAlphabet = false) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop any ongoing speech
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                
+                if (isAlphabet) {
+                    // Cheerful voice for alphabet - higher pitch, slightly faster
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.3;
+                    
+                    // Try to get a female voice which tends to sound more cheerful
+                    const voices = window.speechSynthesis.getVoices();
+                    const cheerfulVoice = voices.find(voice => 
+                        voice.name.includes('Female') || 
+                        voice.name.includes('Samantha') ||
+                        voice.name.includes('Karen') ||
+                        voice.name.includes('Google US English') ||
+                        voice.name.includes('Microsoft Zira')
+                    );
+                    if (cheerfulVoice) {
+                        utterance.voice = cheerfulVoice;
+                    }
+                } else {
+                    // Normal voice for words
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1.0;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+        
+        // Populate alphabet grid
+        function populateAlphabet() {
+            const grid = document.getElementById('alphabetGrid');
+            alphabet.forEach(letter => {
+                const card = document.createElement('div');
+                card.className = 'letter-card';
+                card.innerHTML = `
+                    <span class="speaker-icon">🔊</span>
+                    <span class="letter-upper">${letter.upper}</span>
+                    <span class="letter-lower">${letter.lower}</span>
+                `;
+                card.onclick = () => speak(letter.name, true);
+                grid.appendChild(card);
+            });
+        }
+        
+        // Populate vowel grids
+        function populateVowels(data, gridId) {
+            const grid = document.getElementById(gridId);
+            data.forEach(vowel => {
+                const card = document.createElement('div');
+                card.className = 'vowel-card';
+                
+                const wordsHTML = vowel.words.map(w => `
+                    <div class="word-item">
+                        <span onclick="speak('${w.word}')">${w.word}</span>
+                        <span class="word-emoji" onclick="speak('${w.word}')">${w.emoji}</span>
+                    </div>
+                `).join('');
+                
+                card.innerHTML = `
+                    <div class="vowel-letter">${vowel.letter}</div>
+                    <div class="vowel-sound">${vowel.sound}</div>
+                    <div class="example-words">
+                        ${wordsHTML}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Initialize
+        populateAlphabet();
+        populateVowels(shortVowels, 'shortVowelsGrid');
+        populateVowels(longVowels, 'longVowelsGrid');
+        populateVowels(consonants1, 'consonantsGrid1');
+        populateVowels(consonants2, 'consonantsGrid2');
+        populateVowels(consonants3, 'consonantsGrid3');
+        populateVowels(consonants4, 'consonantsGrid4');
+        populateVowels(consonants5, 'consonantsGrid5');
+    </script>
+</body>
+</html>
