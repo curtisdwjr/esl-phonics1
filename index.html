@@ -400,7 +400,7 @@
     <script>
         // Alphabet data
         const alphabet = [
-            { upper: 'A', lower: 'a', name: 'ay' },
+            { upper: 'A', lower: 'a', name: 'A' },
             { upper: 'B', lower: 'b', name: 'bee' },
             { upper: 'C', lower: 'c', name: 'see' },
             { upper: 'D', lower: 'd', name: 'dee' },
@@ -819,7 +819,7 @@
         // Populate alphabet grid
         function populateAlphabet() {
             const grid = document.getElementById('alphabetGrid');
-            alphabet.forEach(letter => {
+            alphabet.forEach((letter, index) => {
                 const card = document.createElement('div');
                 card.className = 'letter-card';
                 card.innerHTML = `
@@ -827,9 +827,35 @@
                     <span class="letter-upper">${letter.upper}</span>
                     <span class="letter-lower">${letter.lower}</span>
                 `;
-                card.onclick = () => speak(letter.name, true);
+                // Add voice variety - different pitch and rate for different letters
+                card.onclick = () => speakAlphabetLetter(letter.name, index);
                 grid.appendChild(card);
             });
+        }
+        
+        // Special function for alphabet with voice variety
+        function speakAlphabetLetter(text, index) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                
+                // Vary pitch and rate based on letter position
+                // Creates a pleasant variety of voices
+                const patterns = [
+                    { pitch: 1.2, rate: 0.85 },  // Higher, slightly slower
+                    { pitch: 1.4, rate: 0.9 },   // Very high, normal
+                    { pitch: 1.1, rate: 0.8 },   // Medium high, slower
+                    { pitch: 1.3, rate: 0.95 },  // High, slightly faster
+                    { pitch: 1.15, rate: 0.85 }  // Medium, slower
+                ];
+                
+                const pattern = patterns[index % 5];
+                utterance.pitch = pattern.pitch;
+                utterance.rate = pattern.rate;
+                
+                window.speechSynthesis.speak(utterance);
+            }
         }
         
         // Populate vowel grids
