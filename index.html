@@ -328,6 +328,8 @@
             <button class="tab" onclick="showTab('long-consonants')">Consonants (Long Vowel)</button>
             <button class="tab" onclick="showTab('blends')">Blends</button>
             <button class="tab" onclick="showTab('special-sounds')">ch, sh, th, wh Sounds</button>
+            <button class="tab" onclick="showTab('sentences')">📖 Practice Sentences</button>
+            <button class="tab" onclick="showTab('fill-blank')">✏️ Fill in the Blank</button>
         </div>
         
         <!-- Welcome Content -->
@@ -394,6 +396,20 @@
             <h2 class="section-title">ch, sh, th, wh Sounds</h2>
             <p class="section-subtitle">Click the words to hear them</p>
             <div class="vowel-grid" id="specialSoundsGrid"></div>
+        </div>
+        
+        <!-- Practice Sentences Content -->
+        <div id="sentences" class="tab-content">
+            <h2 class="section-title">Practice Sentences</h2>
+            <p class="section-subtitle">Click each sentence to hear it</p>
+            <div id="sentencesGrid" style="max-width: 800px; margin: 0 auto;"></div>
+        </div>
+        
+        <!-- Fill in the Blank Content -->
+        <div id="fill-blank" class="tab-content">
+            <h2 class="section-title">Fill in the Blank</h2>
+            <p class="section-subtitle">Click to see the answer</p>
+            <div id="fillBlankGrid" style="max-width: 800px; margin: 0 auto;"></div>
         </div>
     </div>
     
@@ -787,6 +803,30 @@
             ]}
         ];
         
+        // Practice Sentences data - 20 sentences organized by sound
+        const sentences = [
+            { id: 1, sentence: "The cat is sad.", blankWord: "cat", emoji: "🐱", category: "Short A" },
+            { id: 2, sentence: "The hat is black.", blankWord: "hat", emoji: "🎩", category: "Short A" },
+            { id: 3, sentence: "The pen is red.", blankWord: "pen", emoji: "🖊️", category: "Short E" },
+            { id: 4, sentence: "The bed is wet.", blankWord: "bed", emoji: "🛏️", category: "Short E" },
+            { id: 5, sentence: "The pig is big.", blankWord: "pig", emoji: "🐷", category: "Short I" },
+            { id: 6, sentence: "The kid is six.", blankWord: "kid", emoji: "👶", category: "Short I" },
+            { id: 7, sentence: "The dog is Bob.", blankWord: "dog", emoji: "🐕", category: "Short O" },
+            { id: 8, sentence: "The pot is hot.", blankWord: "pot", emoji: "🍲", category: "Short O" },
+            { id: 9, sentence: "The sun is up.", blankWord: "sun", emoji: "☀️", category: "Short U" },
+            { id: 10, sentence: "The pup is fun.", blankWord: "pup", emoji: "🐶", category: "Short U" },
+            { id: 11, sentence: "I ate the cake.", blankWord: "cake", emoji: "🍰", category: "Long A" },
+            { id: 12, sentence: "The bee is free.", blankWord: "bee", emoji: "🐝", category: "Long E" },
+            { id: 13, sentence: "The bike is nice.", blankWord: "bike", emoji: "🚲", category: "Long I" },
+            { id: 14, sentence: "The boat floats.", blankWord: "boat", emoji: "⛵", category: "Long O" },
+            { id: 15, sentence: "The cube is blue.", blankWord: "cube", emoji: "🧊", category: "Long U" },
+            { id: 16, sentence: "The frog is green.", blankWord: "frog", emoji: "🐸", category: "Blends" },
+            { id: 17, sentence: "The black clock is on the wall.", blankWord: "clock", emoji: "🕐", category: "Blends" },
+            { id: 18, sentence: "I can swim in the pool.", blankWord: "swim", emoji: "🏊", category: "Blends" },
+            { id: 19, sentence: "The star is bright.", blankWord: "star", emoji: "⭐", category: "Blends" },
+            { id: 20, sentence: "She will play today.", blankWord: "play", emoji: "🎮", category: "Blends" }
+        ];
+        
         // Text-to-speech function
         function speak(text, isAlphabet = false) {
             if ('speechSynthesis' in window) {
@@ -882,9 +922,14 @@
                     ? `playAudioFile('${vowel.audioFile}')`
                     : `speak('${vowel.sound}')`;
                 
+                // Only show lowercase if it exists (for vowels, not blends)
+                const lowerHTML = vowel.lower 
+                    ? `<span style="font-size: 2.5rem; margin-left: 10px;">${vowel.lower}</span>`
+                    : '';
+                
                 card.innerHTML = `
                     <div class="vowel-letter" onclick="${clickHandler}" style="cursor: pointer;" title="Click to hear sound">
-                        ${vowel.letter}<span style="font-size: 2.5rem; margin-left: 10px;">${vowel.lower}</span>
+                        ${vowel.letter}${lowerHTML}
                     </div>
                     <div class="example-words">
                         ${wordsHTML}
@@ -918,6 +963,93 @@
             event.target.classList.add('active');
         }
         
+        // Populate Practice Sentences
+        function populateSentences() {
+            const grid = document.getElementById('sentencesGrid');
+            sentences.forEach(item => {
+                const div = document.createElement('div');
+                div.style.cssText = `
+                    background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+                    border: 3px solid #4caf50;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                `;
+                div.onmouseover = () => div.style.transform = 'scale(1.02)';
+                div.onmouseout = () => div.style.transform = 'scale(1)';
+                div.onclick = () => speak(item.sentence);
+                
+                div.innerHTML = `
+                    <span style="font-size: 2rem;">${item.emoji}</span>
+                    <div style="flex: 1;">
+                        <div style="font-size: 1.2rem; font-weight: 600; color: #2e7d32; margin-bottom: 5px;">
+                            ${item.sentence}
+                        </div>
+                        <div style="font-size: 0.9rem; color: #66bb6a; font-style: italic;">
+                            ${item.category}
+                        </div>
+                    </div>
+                    <span style="font-size: 1.5rem;">🔊</span>
+                `;
+                grid.appendChild(div);
+            });
+        }
+        
+        // Populate Fill in the Blank
+        function populateFillBlank() {
+            const grid = document.getElementById('fillBlankGrid');
+            sentences.forEach(item => {
+                const blankSentence = item.sentence.replace(item.blankWord, '______');
+                const div = document.createElement('div');
+                div.style.cssText = `
+                    background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+                    border: 3px solid #4caf50;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 15px;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                `;
+                
+                const answerDiv = document.createElement('div');
+                answerDiv.style.cssText = `
+                    background: #4caf50;
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    display: none;
+                    margin-top: 10px;
+                    text-align: center;
+                `;
+                answerDiv.textContent = `Answer: ${item.blankWord}`;
+                
+                div.innerHTML = `
+                    <span style="font-size: 2rem;">${item.emoji}</span>
+                    <div style="flex: 1;">
+                        <div style="font-size: 1.2rem; font-weight: 600; color: #2e7d32; margin-bottom: 5px;">
+                            ${blankSentence}
+                        </div>
+                        <button onclick="this.nextElementSibling.style.display='block'; this.style.display='none';" 
+                                style="background: #66bb6a; color: white; border: none; padding: 8px 16px; 
+                                       border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;">
+                            Show Answer
+                        </button>
+                    </div>
+                `;
+                div.querySelector('div > div').appendChild(answerDiv);
+                grid.appendChild(div);
+            });
+        }
+        
         // Initialize
         populateAlphabet();
         populateVowels(shortVowels, 'shortVowelsGrid');
@@ -926,6 +1058,8 @@
         populateVowels(longConsonants, 'longConsonantsGrid');
         populateVowels(blends, 'blendsGrid');
         populateVowels(specialSounds, 'specialSoundsGrid');
+        populateSentences();
+        populateFillBlank();
     </script>
 </body>
 </html>
