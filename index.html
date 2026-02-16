@@ -1002,112 +1002,20 @@
             });
         }
         
-        // Populate Fill in the Blank
+        // Populate Fill in the Blank - Simple version
         function populateFillBlank() {
             const grid = document.getElementById('fillBlankGrid');
             grid.innerHTML = '';
             
-            sentences.forEach((item, index) => {
+            sentences.forEach(item => {
+                const blankSentence = item.sentence.replace(item.blankWord, '______');
                 const div = document.createElement('div');
-                div.style.cssText = `
-                    background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
-                    border: 3px solid #4caf50;
-                    border-radius: 15px;
-                    padding: 20px;
-                    margin-bottom: 15px;
-                `;
+                div.style.cssText = 'background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%); border: 3px solid #4caf50; border-radius: 15px; padding: 20px; margin-bottom: 15px;';
                 
-                // Create emoji span
-                const emojiSpan = document.createElement('span');
-                emojiSpan.style.fontSize = '2rem';
-                emojiSpan.textContent = item.emoji;
-                
-                // Create sentence with blank
-                const sentenceDiv = document.createElement('div');
-                sentenceDiv.style.cssText = 'flex: 1; font-size: 1.2rem; font-weight: 600; color: #2e7d32;';
-                const blankSentence = item.sentence.replace(item.blankWord, '_____');
-                sentenceDiv.textContent = blankSentence;
-                
-                // Create top container
-                const topDiv = document.createElement('div');
-                topDiv.style.cssText = 'display: flex; align-items: center; gap: 15px; margin-bottom: 15px;';
-                topDiv.appendChild(emojiSpan);
-                topDiv.appendChild(sentenceDiv);
-                
-                // Create input
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.id = 'input' + index;
-                input.placeholder = 'Type here';
-                input.style.cssText = 'flex: 1; min-width: 150px; padding: 12px; font-size: 1.1rem; border: 2px solid #4caf50; border-radius: 8px; outline: none;';
-                
-                // Create Check button
-                const checkBtn = document.createElement('button');
-                checkBtn.textContent = 'Check';
-                checkBtn.style.cssText = 'background: #4caf50; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;';
-                checkBtn.onclick = () => checkFillBlank(index);
-                
-                // Create Show Answer button
-                const showBtn = document.createElement('button');
-                showBtn.textContent = 'Show Answer';
-                showBtn.style.cssText = 'background: #66bb6a; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;';
-                showBtn.onclick = () => showFillBlankAnswer(index);
-                
-                // Create button container
-                const btnDiv = document.createElement('div');
-                btnDiv.style.cssText = 'display: flex; gap: 10px; align-items: center; flex-wrap: wrap;';
-                btnDiv.appendChild(input);
-                btnDiv.appendChild(checkBtn);
-                btnDiv.appendChild(showBtn);
-                
-                // Create feedback div
-                const feedbackDiv = document.createElement('div');
-                feedbackDiv.id = 'feedback' + index;
-                feedbackDiv.style.cssText = 'margin-top: 10px; font-size: 1.5rem; text-align: center;';
-                
-                // Assemble everything
-                div.appendChild(topDiv);
-                div.appendChild(btnDiv);
-                div.appendChild(feedbackDiv);
+                div.innerHTML = '<div style="display: flex; align-items: center; gap: 15px;"><span style="font-size: 2rem;">' + item.emoji + '</span><div style="flex: 1;"><div style="font-size: 1.2rem; font-weight: 600; color: #2e7d32; margin-bottom: 10px;">' + blankSentence + '</div><button onclick="this.nextElementSibling.style.display=\'block\'; this.style.display=\'none\';" style="background: #66bb6a; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;">Show Answer</button><div style="background: #4caf50; color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; display: none; margin-top: 10px;">Answer: ' + item.blankWord + '</div></div></div>';
                 
                 grid.appendChild(div);
             });
-        }
-        
-        // Check student answer
-        function checkFillBlank(index) {
-            const input = document.getElementById('input' + index);
-            const feedback = document.getElementById('feedback' + index);
-            const userAnswer = input.value.trim().toLowerCase();
-            const correctAnswer = sentences[index].blankWord.toLowerCase();
-            
-            if (!userAnswer) {
-                feedback.textContent = '';
-                return;
-            }
-            
-            if (userAnswer === correctAnswer) {
-                feedback.textContent = '😊';
-                input.style.borderColor = '#2e7d32';
-                input.style.background = '#e8f5e9';
-            } else {
-                feedback.textContent = '😞';
-                input.style.borderColor = '#c62828';
-                input.style.background = '#ffebee';
-            }
-        }
-        
-        // Show correct answer
-        function showFillBlankAnswer(index) {
-            const input = document.getElementById('input' + index);
-            const feedback = document.getElementById('feedback' + index);
-            const correctAnswer = sentences[index].blankWord;
-            
-            input.value = correctAnswer;
-            input.style.borderColor = '#4caf50';
-            input.style.background = '#e8f5e9';
-            feedback.textContent = '';
-        }
         }
         
         // Initialize
