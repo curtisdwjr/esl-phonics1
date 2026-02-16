@@ -428,29 +428,34 @@
             { upper: 'Z', lower: 'z', name: 'zee' }
         ];
         
+        // Detect if running on GitHub Pages or locally
+        const baseURL = window.location.hostname.includes('github.io') 
+            ? '' 
+            : 'https://curtisdwjr.github.io/esl-phonics1/';
+        
         // Short vowels data
         const shortVowels = [
-            { letter: 'A', sound: 'ă', words: [
+            { letter: 'A', lower: 'a', sound: 'aa', audioFile: baseURL + 'audio/shorta.mp3', words: [
                 { word: 'cat', emoji: '🐱' },
                 { word: 'hat', emoji: '🎩' },
                 { word: 'mat', emoji: '🧹' }
             ]},
-            { letter: 'E', sound: 'ĕ', words: [
+            { letter: 'E', lower: 'e', sound: 'eh', audioFile: baseURL + 'audio/shorte.mp3', words: [
                 { word: 'bed', emoji: '🛏️' },
                 { word: 'red', emoji: '🔴' },
                 { word: 'pen', emoji: '🖊️' }
             ]},
-            { letter: 'I', sound: 'ĭ', words: [
+            { letter: 'I', lower: 'i', sound: 'ih', audioFile: baseURL + 'audio/shorti.mp3', words: [
                 { word: 'pig', emoji: '🐷' },
                 { word: 'sit', emoji: '🪑' },
                 { word: 'pin', emoji: '📌' }
             ]},
-            { letter: 'O', sound: 'ŏ', words: [
+            { letter: 'O', lower: 'o', sound: 'ah', audioFile: baseURL + 'audio/shorto.mp3', words: [
                 { word: 'dog', emoji: '🐕' },
                 { word: 'hot', emoji: '🔥' },
                 { word: 'box', emoji: '📦' }
             ]},
-            { letter: 'U', sound: 'ŭ', words: [
+            { letter: 'U', lower: 'u', sound: 'uh', audioFile: baseURL + 'audio/shortu.mp3', words: [
                 { word: 'cup', emoji: '☕' },
                 { word: 'sun', emoji: '☀️' },
                 { word: 'bus', emoji: '🚌' }
@@ -459,27 +464,27 @@
         
         // Long vowels data
         const longVowels = [
-            { letter: 'A', sound: 'ā', words: [
+            { letter: 'A', lower: 'a', sound: 'ay', audioFile: baseURL + 'audio/longa.mp3', words: [
                 { word: 'cake', emoji: '🍰' },
                 { word: 'rain', emoji: '🌧️' },
                 { word: 'day', emoji: '📅' }
             ]},
-            { letter: 'E', sound: 'ē', words: [
+            { letter: 'E', lower: 'e', sound: 'ee', audioFile: baseURL + 'audio/longe.mp3', words: [
                 { word: 'bee', emoji: '🐝' },
                 { word: 'feet', emoji: '👣' },
                 { word: 'tree', emoji: '🌳' }
             ]},
-            { letter: 'I', sound: 'ī', words: [
+            { letter: 'I', lower: 'i', sound: 'aye', audioFile: baseURL + 'audio/longi.mp3', words: [
                 { word: 'bike', emoji: '🚲' },
                 { word: 'kite', emoji: '🪁' },
                 { word: 'pie', emoji: '🥧' }
             ]},
-            { letter: 'O', sound: 'ō', words: [
+            { letter: 'O', lower: 'o', sound: 'oh', audioFile: baseURL + 'audio/longo.mp3', words: [
                 { word: 'boat', emoji: '⛵' },
                 { word: 'bone', emoji: '🦴' },
                 { word: 'toe', emoji: '🦶' }
             ]},
-            { letter: 'U', sound: 'ū', words: [
+            { letter: 'U', lower: 'u', sound: 'yu', audioFile: baseURL + 'audio/longu.mp3', words: [
                 { word: 'cube', emoji: '🧊' },
                 { word: 'tube', emoji: '🧪' },
                 { word: 'blue', emoji: '🔵' }
@@ -872,14 +877,30 @@
                     </div>
                 `).join('');
                 
+                // Use audio file if available, otherwise use text-to-speech
+                const clickHandler = vowel.audioFile 
+                    ? `playAudioFile('${vowel.audioFile}')`
+                    : `speak('${vowel.sound}')`;
+                
                 card.innerHTML = `
-                    <div class="vowel-letter">${vowel.letter}</div>
-                    <div class="vowel-sound">${vowel.sound}</div>
+                    <div class="vowel-letter" onclick="${clickHandler}" style="cursor: pointer;" title="Click to hear sound">
+                        ${vowel.letter}<span style="font-size: 2.5rem; margin-left: 10px;">${vowel.lower}</span>
+                    </div>
                     <div class="example-words">
                         ${wordsHTML}
                     </div>
                 `;
                 grid.appendChild(card);
+            });
+        }
+        
+        // Play audio file function
+        function playAudioFile(audioPath) {
+            const audio = new Audio(audioPath);
+            audio.play().catch(err => {
+                console.error('Audio playback failed:', err);
+                // Fallback to text-to-speech if audio file fails
+                speak(audioPath.split('/').pop().replace('.mp3', ''));
             });
         }
         
