@@ -320,16 +320,16 @@
         
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tab active" onclick="showTab('welcome')">📚 Welcome</button>
-            <button class="tab" onclick="showTab('alphabet')">🔤 Alphabet</button>
-            <button class="tab" onclick="showTab('short-vowels')">Short Vowels</button>
-            <button class="tab" onclick="showTab('long-vowels')">Long Vowels</button>
-            <button class="tab" onclick="showTab('short-consonants')">Consonants (Short Vowel)</button>
-            <button class="tab" onclick="showTab('long-consonants')">Consonants (Long Vowel)</button>
-            <button class="tab" onclick="showTab('blends')">Blends</button>
-            <button class="tab" onclick="showTab('special-sounds')">ch, sh, th, wh Sounds</button>
-            <button class="tab" onclick="showTab('sentences')">📖 Practice Sentences</button>
-            <button class="tab" onclick="showTab('fill-blank')">✏️ Fill in the Blank</button>
+            <button class="tab active" onclick="showTab('welcome', this)">📚 Welcome</button>
+            <button class="tab" onclick="showTab('alphabet', this)">🔤 Alphabet</button>
+            <button class="tab" onclick="showTab('short-vowels', this)">Short Vowels</button>
+            <button class="tab" onclick="showTab('long-vowels', this)">Long Vowels</button>
+            <button class="tab" onclick="showTab('short-consonants', this)">Consonants (Short Vowel)</button>
+            <button class="tab" onclick="showTab('long-consonants', this)">Consonants (Long Vowel)</button>
+            <button class="tab" onclick="showTab('blends', this)">Blends</button>
+            <button class="tab" onclick="showTab('special-sounds', this)">ch, sh, th, wh Sounds</button>
+            <button class="tab" onclick="showTab('sentences', this)">📖 Practice Sentences</button>
+            <button class="tab" onclick="showTab('fill-blank', this)">✏️ Fill in the Blank</button>
         </div>
         
         <!-- Welcome Content -->
@@ -950,7 +950,7 @@
         }
         
         // Tab switching
-        function showTab(tabName) {
+        function showTab(tabName, clickedElement) {
             // Hide all tabs
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
@@ -960,7 +960,9 @@
             
             // Show selected tab
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+            }
         }
         
         // Populate Practice Sentences
