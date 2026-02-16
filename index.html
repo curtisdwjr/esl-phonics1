@@ -1003,8 +1003,8 @@
         // Populate Fill in the Blank
         function populateFillBlank() {
             const grid = document.getElementById('fillBlankGrid');
-            sentences.forEach(item => {
-                const blankSentence = item.sentence.replace(item.blankWord, '______');
+            sentences.forEach((item, index) => {
+                const blankSentence = item.sentence.replace(item.blankWord, '_____');
                 const div = document.createElement('div');
                 div.style.cssText = `
                     background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
@@ -1012,42 +1012,77 @@
                     border-radius: 15px;
                     padding: 20px;
                     margin-bottom: 15px;
-                    transition: all 0.3s ease;
-                    display: flex;
-                    align-items: center;
-                    gap: 15px;
                 `;
-                
-                const answerDiv = document.createElement('div');
-                answerDiv.style.cssText = `
-                    background: #4caf50;
-                    color: white;
-                    padding: 8px 16px;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    display: none;
-                    margin-top: 10px;
-                    text-align: center;
-                `;
-                answerDiv.textContent = `Answer: ${item.blankWord}`;
                 
                 div.innerHTML = `
-                    <span style="font-size: 2rem;">${item.emoji}</span>
-                    <div style="flex: 1;">
-                        <div style="font-size: 1.2rem; font-weight: 600; color: #2e7d32; margin-bottom: 5px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                        <span style="font-size: 2rem;">${item.emoji}</span>
+                        <div style="flex: 1; font-size: 1.2rem; font-weight: 600; color: #2e7d32;">
                             ${blankSentence}
                         </div>
-                        <button onclick="this.nextElementSibling.style.display='block'; this.style.display='none';" 
-                                style="background: #66bb6a; color: white; border: none; padding: 8px 16px; 
-                                       border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;">
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="text" 
+                               id="input-${index}" 
+                               placeholder="Type your answer here"
+                               style="flex: 1; min-width: 200px; padding: 12px; font-size: 1.1rem; 
+                                      border: 2px solid #4caf50; border-radius: 8px; outline: none;">
+                        <button onclick="checkAnswer(${index}, '${item.blankWord}')" 
+                                style="background: #4caf50; color: white; border: none; padding: 12px 24px; 
+                                       border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;
+                                       transition: all 0.3s ease;">
+                            Check
+                        </button>
+                        <button onclick="showCorrectAnswer(${index}, '${item.blankWord}')" 
+                                style="background: #66bb6a; color: white; border: none; padding: 12px 24px; 
+                                       border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600;
+                                       transition: all 0.3s ease;">
                             Show Answer
                         </button>
                     </div>
+                    <div id="feedback-${index}" style="margin-top: 10px; font-size: 1.1rem; font-weight: 600;"></div>
                 `;
-                div.querySelector('div > div').appendChild(answerDiv);
+                
                 grid.appendChild(div);
             });
+        }
+        
+        // Check student's answer
+        function checkAnswer(index, correctAnswer) {
+            const input = document.getElementById(`input-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            const userAnswer = input.value.trim().toLowerCase();
+            const correct = correctAnswer.toLowerCase();
+            
+            if (userAnswer === '') {
+                feedback.style.color = '#f57c00';
+                feedback.textContent = '⚠️ Please type an answer first!';
+                return;
+            }
+            
+            if (userAnswer === correct) {
+                feedback.style.color = '#2e7d32';
+                feedback.textContent = '✅ Correct! Great job!';
+                input.style.borderColor = '#2e7d32';
+                input.style.background = '#e8f5e9';
+            } else {
+                feedback.style.color = '#c62828';
+                feedback.textContent = `❌ Not quite. Try again!`;
+                input.style.borderColor = '#c62828';
+            }
+        }
+        
+        // Show the correct answer
+        function showCorrectAnswer(index, correctAnswer) {
+            const input = document.getElementById(`input-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            
+            input.value = correctAnswer;
+            input.style.borderColor = '#4caf50';
+            input.style.background = '#e8f5e9';
+            feedback.style.color = '#1565c0';
+            feedback.textContent = `💡 The answer is: ${correctAnswer}`;
+        }
         }
         
         // Initialize
